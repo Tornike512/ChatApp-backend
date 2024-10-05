@@ -4,9 +4,9 @@ import UsersModel from "../Models/UsersModel.js";
 const receiveUser = express.Router();
 
 receiveUser.post("/user", async (req, res) => {
-  const { user } = req.body;
+  const { name, image } = req.body;
 
-  const newUser = new UsersModel(user);
+  const newUser = new UsersModel({ username: name, userImage: image });
   await newUser.save();
 
   res.status(201).send(newUser);
