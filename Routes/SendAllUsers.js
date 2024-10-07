@@ -7,9 +7,7 @@ SendAllUsers.get("/all-users", async (req, res) => {
   const { users } = req.body;
   console.log(req.body);
 
-  const allUsers = await UsersModel.find({
-    users,
-  });
+  const allUsers = await UsersModel.find({}, "username");
 
   res.status(200).send(allUsers);
 });
