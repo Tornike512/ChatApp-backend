@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import receiveUser from "./Routes/ReceiveUser.js";
 import SendUserData from "./Routes/SendUserData.js";
+import SendAllUsers from "./Routes/SendAllUsers.js";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 app.use(receiveUser);
 app.use(SendUserData);
+app.use(SendAllUsers);
 
 app.listen(PORT, () => {
   console.log(`Listening on Port ${PORT}`);
