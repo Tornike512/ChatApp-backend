@@ -7,6 +7,7 @@ import SendUserData from "./Routes/SendUserData.js";
 import SendAllUsers from "./Routes/SendAllUsers.js";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import ChatHistory from "./Models/ChatHistoryModel.js";
 
 dotenv.config();
 
@@ -30,10 +31,14 @@ app.use(SendUserData);
 app.use(SendAllUsers);
 
 io.on("connection", (socket) => {
-  socket.emit("Send message");
+  socket.on("message", async ({ username, userImage, id, message }) => {
+    const newMessage = new ChatHistory({ username, userImage, id, message });
+    await newMessage.save();
+    io.emit("message", { username, userImage, id, message });
+  });
 
-  socket.on("receive message", (arg) => {
-    console.log(arg);
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
   });
 });
 
