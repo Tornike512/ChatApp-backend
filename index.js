@@ -5,6 +5,7 @@ import cors from "cors";
 import receiveUser from "./Routes/ReceiveUser.js";
 import SendUserData from "./Routes/SendUserData.js";
 import SendAllUsers from "./Routes/SendAllUsers.js";
+import messages from "./Routes/Message.js";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import ChatHistory from "./Models/ChatHistoryModel.js";
@@ -12,9 +13,7 @@ import ChatHistory from "./Models/ChatHistoryModel.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-
 const app = express();
-
 const server = createServer(app);
 
 app.use(express.json());
@@ -29,6 +28,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 app.use(receiveUser);
 app.use(SendUserData);
 app.use(SendAllUsers);
+app.use(messages);
 
 io.on("connection", (socket) => {
   socket.on("message", async ({ username, userImage, id, message }) => {

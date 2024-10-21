@@ -1,9 +1,9 @@
 import express from "express";
-import ChatHistory from "../Models/ChatHistoryModel";
+import ChatHistory from "../Models/ChatHistoryModel.js";
 
-const router = express.Router();
+const messages = express.Router();
 
-router.get("/messages", async (req, res) => {
+messages.get("/messages", async (req, res) => {
   try {
     const messages = await ChatHistory.find().sort({ timestamp: 1 });
     res.json(messages);
@@ -12,7 +12,7 @@ router.get("/messages", async (req, res) => {
   }
 });
 
-router.post("/messages", async (req, res) => {
+messages.post("/messages", async (req, res) => {
   const { username, userImage, id, message } = req.body;
   const newMessage = new ChatHistory({ username, userImage, id, message });
   try {
@@ -23,4 +23,4 @@ router.post("/messages", async (req, res) => {
   }
 });
 
-export default router;
+export default messages;
