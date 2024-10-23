@@ -19,7 +19,9 @@ const server = createServer(app);
 app.use(express.json());
 app.use(cors());
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
+});
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("Connected to MongoDB");
@@ -42,6 +44,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on Port ${PORT}`);
 });
