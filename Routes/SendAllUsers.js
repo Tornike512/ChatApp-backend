@@ -4,10 +4,7 @@ import UsersModel from "../Models/UsersModel.js";
 const SendAllUsers = express.Router();
 
 SendAllUsers.get("/all-users", async (req, res) => {
-  const { users } = req.body;
-  console.log(req.body);
-
-  const allUsers = await UsersModel.find({}, "username");
+  const allUsers = await UsersModel.find({}, "username userImage");
 
   res.status(200).send(allUsers);
 });
