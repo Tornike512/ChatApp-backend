@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   socket.on("message", async ({ username, userImage, id, message }) => {
     const newMessage = new ChatHistory({
       username,
-      userImage: Array.isArray(userImage) ? userImage[0] : userImage, // Use only the first URL if it's an array
+      userImage,
       id,
       message,
     });
