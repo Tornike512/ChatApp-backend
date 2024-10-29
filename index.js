@@ -17,17 +17,10 @@ const app = express();
 const server = createServer(app);
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "https://jazzy-snickerdoodle-0bafb4.netlify.app/",
-  })
-);
+app.use(cors());
 
 const io = new Server(server, {
-  cors: {
-    origin: "https://jazzy-snickerdoodle-0bafb4.netlify.app/",
-    methods: ["GET", "POST"],
-  },
+  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
 });
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
@@ -41,7 +34,12 @@ app.use(messages);
 
 io.on("connection", (socket) => {
   socket.on("message", async ({ username, userImage, id, message }) => {
-    const newMessage = new ChatHistory({ username, userImage, id, message });
+    const newMessage = new ChatHistory({
+      username,
+      userImage: Array.isArray(userImage) ? userImage[0] : userImage, // Use only the first URL if it's an array
+      id,
+      message,
+    });
     await newMessage.save();
     io.emit("message", { username, userImage, id, message });
   });
