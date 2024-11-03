@@ -20,7 +20,10 @@ app.use(express.json());
 app.use(cors());
 
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] },
+  cors: {
+    origin: ["http://localhost:5173", `${process.env.IP}`],
+    methods: ["GET", "POST"],
+  },
 });
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
