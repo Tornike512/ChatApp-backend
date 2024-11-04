@@ -52,6 +52,8 @@ io.on("connection", (socket) => {
     io.emit("message", { username, userImage, id, message });
   });
 
+  socket.on("typing", async ({ isTyping }) => {});
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });
