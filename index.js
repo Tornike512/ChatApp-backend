@@ -52,8 +52,10 @@ io.on("connection", (socket) => {
     io.emit("message", { username, userImage, id, message });
   });
 
-  socket.on("typing", async ({ isTyping, userImage }) => {
-    io.emit("typing", { isTyping, userImage });
+  socket.on("typing", ({ isTyping, userImage, currentUsername }) => {
+    console.log({ isTyping, userImage, currentUsername });
+
+    io.emit("typing", { isTyping, userImage, currentUsername });
   });
 
   socket.on("disconnect", () => {
