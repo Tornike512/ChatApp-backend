@@ -40,6 +40,8 @@ app.use(SendUserData);
 app.use(SendAllUsers);
 app.use(messages);
 
+const typingUsers = [];
+
 io.on("connection", (socket) => {
   socket.on("message", async ({ username, userImage, id, message }) => {
     const newMessage = new ChatHistory({
@@ -53,7 +55,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", ({ userImage, currentUsername }) => {
-    console.log(userImage, currentUsername);
+    typingUsers.push({ userImage, currentUsername });
 
     io.emit("typing", { userImage, currentUsername });
   });
